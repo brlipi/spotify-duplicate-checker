@@ -1,17 +1,15 @@
 // const fs = require('fs');
 const SpotifyWebApi = require('spotify-web-api-node');
-const token = "BQDs5VCAH0VTKc74E43WfWZQsTXN26mHraDk56wji91LsUvXdXauaM1o_zhf0HshXqIsF4MWm3l3zBbuhBTM9LXTLaEBJpHqjLpaHTBlrgwYXC712_RhP_aAEjEyx4PEh1_9vJii25kFy0sLMZArZIbZsEHh7vA51Tx8jsjbHO_NSoGLJqoDKBEnc5mrL453rv4MPDFI-7te8Q4wi5p8aMhAL-zDtGjEHy_N5Tja5qE";
+const token = "BQAn83jd7A2tqDf22CsPPFdV6M47Wz1CmOsedbW4j6s8CsIONHF72COTfIM4Z53rIHExUIruQjLq02swlmQZs9-Yo45haU3EYhqA3EVs-U8YJnE6l7TeVZryIMiMsQmSWgCCWnOelQlpZWHyiVsJj-VbqJq5f5JqwocmlGfmPknW1FoUabsgBPHYg5ucd2u4lSKLKbs58B7mc7Zu2X3XUkMoZvKKztBoIIXPzfm0m8A";
 
 const spotifyApi = new SpotifyWebApi();
 spotifyApi.setAccessToken(token);
 
 function main() {
     (async () => {
-        const me = await spotifyApi.getMe();
+        const me = await spotifyApi.getMe(); // The user's info is needed to retrieve the playlists.
 
         const playlists = await spotifyApi.getUserPlaylists(me.body.id, { limit: 50 }); // getUserPlaylists maximum limit is 50.
-        // console.log(playlists);
-        console.log('Type of "playlists": ' + typeof(playlists));
         console.log('Total playlists: ' + playlists.body.total); // This gets the amount of playlists the user has in total.
         var totalPlaylists = playlists.body.total;
         var rep = 1;
@@ -38,7 +36,6 @@ function main() {
         }
 
         var tracks = await spotifyApi.getPlaylistTracks(playlistArray[3], { limit: 100 }); // getPlaylistTracks max limit is 100.
-        console.log('Type of "tracks": ' + typeof(tracks));
         console.log('Total tracks: ' + tracks.body.total); // This gets the amount of tracks the playlist has in total.
         var trackArray = [];
         for (let track of tracks.body.items) {
@@ -52,31 +49,27 @@ function main() {
                 for (let track of tracks.body.items) {
                     trackArray.push(track);
                 }
-                // console.log(tracks.body.href);
-                // console.log(tracks.body.items);
                 rep++;
                 totalTracks = totalTracks - 100;
             }
-            // console.log(trackArray);
-            // console.log(tracks.body.items);
-            console.log("rep final value: " + rep);
             tracks = Object.assign(await spotifyApi.getPlaylistTracks(playlistArray[3], { limit: totalTracks - 100, offset: 100 * rep }));
-            console.log(tracks.body.items);
             for (let track of tracks.body.items) {
                 trackArray.push(track);
             }
-            console.log("Tracks Array");
-            console.log(trackArray);
-            // console.log(tracks.body.items);
         }
 
         count = 0;
-        for (let track of tracks.body.items) {
-            console.log(track.track.name + " " + track.track.artists + " " + track.track.album + " " + track.track.id + "\n");
-        }
+        console.log("forEach loop: ");
+        console.log(trackArray[0].track.artists);
+
+        trackArray.forEach((arrayItem) => {
+            arrayItem.track.artists.forEach((artist) => {
+                console.log(arrayItem.track.name + " " + artist.name + " " + arrayItem.track.album.name + " " + arrayItem.track.id + "\n");
+            })
+        });
 
     })().catch(err => {
-        console.error(err);
+        console.error('An error has ocurred: ', err);
     });
 }
 
