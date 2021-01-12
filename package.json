@@ -1,0 +1,24 @@
+{
+  "name": "spotify-duplicate-checker",
+  "version": "1.0.0",
+  "description": "Simple application that checks for song duplicates in a Spotify playlist.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brlipi/spotify-duplicate-checker.git"
+  },
+  "author": "brlipi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brlipi/spotify-duplicate-checker/issues"
+  },
+  "homepage": "https://github.com/brlipi/spotify-duplicate-checker#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "spotify-web-api-node": "^5.0.0"
+  }
+}
