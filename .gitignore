@@ -1,0 +1,6 @@
+# To ignore:
+*.txt
+*.md
+
+# To not ignore:
+!README.md
