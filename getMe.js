@@ -37,16 +37,12 @@ function main() {
         var count = 0;
         playlistArray.forEach((arrayPlaylist) => {
             if (arrayPlaylist.owner.id == me.body.id || arrayPlaylist.collaborative == true) {
-                userPlaylists[count] = arrayPlaylist.name + " " + arrayPlaylist.id;
+                userPlaylists[count] = { name: arrayPlaylist.name, id: arrayPlaylist.id };
                 count++;
             }
         });
 
-        userPlaylists.forEach((userPlaylistItem) => {
-            console.log(userPlaylistItem);
-        });
-
-        var tracks = await spotifyApi.getPlaylistTracks(userPlaylists[4], { limit: 100 }); // getPlaylistTracks max limit is 100.
+        var tracks = await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: 100 }); // getPlaylistTracks max limit is 100.
         console.log('Total tracks: ' + tracks.body.total); // This gets the amount of tracks the playlist has in total.
         var trackArray = [];
         for (let track of tracks.body.items) {
@@ -56,14 +52,14 @@ function main() {
         rep = 1;
         if ((totalTracks - 100) > 100) {
             while ((totalTracks - 100) > 100) {
-                tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[4], { limit: 100, offset: 100 * rep }));
+                tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: 100, offset: 100 * rep }));
                 for (let track of tracks.body.items) {
                     trackArray.push(track);
                 }
                 rep++;
                 totalTracks = totalTracks - 100;
             }
-            tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[4], { limit: totalTracks - 100, offset: 100 * rep }));
+            tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: totalTracks - 100, offset: 100 * rep }));
             for (let track of tracks.body.items) {
                 trackArray.push(track);
             }
