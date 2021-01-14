@@ -40,7 +40,6 @@ var spotifyApi = new SpotifyWebApi({
   app.get('/callback', (req, res) => {
       const error = req.query.error;
       const code = req.query.code;
-      const state = req.query.state;
 
       if (error) {
           console.error('Callback error:', error);
@@ -61,6 +60,8 @@ var spotifyApi = new SpotifyWebApi({
 
           console.log(`Successfully retrieved access token. Expires in ${expires_in} seconds.`);
           res.send('Success! You can now close the window.');
+
+        //   spotifyApi.setAccessToken(access_token);
 
           setInterval(async () => {
               const data = await spotifyApi.refreshAccessToken();
