@@ -36,10 +36,8 @@ function main() {
         var userPlaylists = [];
         var count = 0;
         playlistArray.forEach((arrayPlaylist) => {
-            if (arrayPlaylist.owner.id == me.body.id || arrayPlaylist.collaborative == true) {
-                userPlaylists[count] = { name: arrayPlaylist.name, id: arrayPlaylist.id };
-                count++;
-            }
+            userPlaylists[count] = { name: arrayPlaylist.name, id: arrayPlaylist.id, collaborative: arrayPlaylist.collaborative };
+            count++;
         });
 
         var tracks = await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: 100 }); // getPlaylistTracks max limit is 100.
