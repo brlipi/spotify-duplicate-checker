@@ -1,12 +1,7 @@
-// const fs = require('fs');
-const SpotifyWebApi = require('spotify-web-api-node');
-const token = "BQBaLl8j_IjsmibVPxo1BZoVYuEkiWae2AHNS-WwtFwGmgCuGoVOdHqcprnl6Atj7j3sTk6-sOA4VlP-PZ7-dd66XrbEuevL_hSnMiczArWECIwsCVbgY2-qmn9Thnsw4zWT0gZJyOJpQDhhd_HMW2-EgPybv6Qw9x9Yt4GGEdRaN1RCClq3rdhXAJuO1w2XwElOrfPUZKWOmeQQ8jIMp-jaWvY1SSVWEI5lmHi-twA";
+'use strict'
 
-const spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken(token);
-
-function main() {
-    (async () => {
+async function returnPlaylist() {
+    try {
         const me = await spotifyApi.getMe(); // The user's info is needed to retrieve the playlists.
 
         var playlists = await spotifyApi.getUserPlaylists(me.body.id, { limit: 50 }); // getUserPlaylists maximum limit is 50.
@@ -39,8 +34,16 @@ function main() {
             userPlaylists[count] = { name: arrayPlaylist.name, id: arrayPlaylist.id, collaborative: arrayPlaylist.collaborative };
             count++;
         });
+        return userPlaylists;
+    }
+    catch(err) {
+        console.error(err);
+    }
+}
 
-        var tracks = await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: 100 }); // getPlaylistTracks max limit is 100.
+async function returnTracks(userPlaylists, index) {
+    try {
+        var tracks = await spotifyApi.getPlaylistTracks(userPlaylists[index].id, { limit: 100 }); // getPlaylistTracks max limit is 100.
         console.log('Total tracks: ' + tracks.body.total); // This gets the amount of tracks the playlist has in total.
         var trackArray = [];
         for (let track of tracks.body.items) {
@@ -50,14 +53,14 @@ function main() {
         rep = 1;
         if ((totalTracks - 100) > 100) {
             while ((totalTracks - 100) > 100) {
-                tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: 100, offset: 100 * rep }));
+                tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[index].id, { limit: 100, offset: 100 * rep }));
                 for (let track of tracks.body.items) {
                     trackArray.push(track);
                 }
                 rep++;
                 totalTracks = totalTracks - 100;
             }
-            tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[4].id, { limit: totalTracks - 100, offset: 100 * rep }));
+            tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[index].id, { limit: totalTracks - 100, offset: 100 * rep }));
             for (let track of tracks.body.items) {
                 trackArray.push(track);
             }
@@ -68,10 +71,17 @@ function main() {
                 console.log(arrayItem.track.name + " " + artist.name + " " + arrayItem.track.album.name + " " + arrayItem.track.id + "\n");
             })
         });
-
-    })().catch(err => {
-        console.error('An error has ocurred: \nError:', err);
-    });
+        return trackArray;
+    }
+    catch(err) {
+        console.error(err);
+    }
 }
 
-main(); 
+// let index = 14;
+// returnPlaylist().then((data) => {
+//     console.log(data);
+//     returnTracks(data, index).then((data) => console.log(data)).catch((err) => console.error(err));
+// }).catch((err) => console.error(err));
+
+module.exports = { returnPlaylist, returnTracks};
