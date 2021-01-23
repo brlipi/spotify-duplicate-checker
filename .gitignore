@@ -1,7 +1,9 @@
 # To ignore:
 *.txt
 *.md
+*.bak
 .env
+
 
 # To not ignore:
 !README.md
