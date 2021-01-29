@@ -1,7 +1,11 @@
+'use strict'
+
 require('dotenv').config();
 
-var SpotifyWebApi = require('spotify-web-api-node');
+const SpotifyWebApi = require('spotify-web-api-node');
 const express = require('express');
+
+const getMe = require('./getMe');
 
 const scopes = [
     // 'ugc-image-upload',
@@ -33,6 +37,8 @@ var spotifyApi = new SpotifyWebApi({
 
   const app = express();
 
+  app.set('view engine', 'pug');
+
   app.get('/login', (req,res) => {
       res.redirect(spotifyApi.createAuthorizeURL(scopes));
   });
@@ -59,9 +65,10 @@ var spotifyApi = new SpotifyWebApi({
           console.log('refresh_token:', refresh_token);
 
           console.log(`Successfully retrieved access token. Expires in ${expires_in} seconds.`);
-          res.send('Success! You can now close the window.');
+        //   res.send('Success! You can now close the window.');
+        res.redirect('/test');
 
-        //   spotifyApi.setAccessToken(access_token);
+        spotifyApi.setAccessToken(access_token);
 
           setInterval(async () => {
               const data = await spotifyApi.refreshAccessToken();
@@ -75,6 +82,17 @@ var spotifyApi = new SpotifyWebApi({
           console.error('Error getting Tokens:', error);
           res.send(`Error getting tokens: ${error}`);
       });
+  });
+
+  app.get('/playlists', (req, res) => {
+    //   let index = 14;
+    //   getMe.returnPlaylist(spotifyApi).then((data) => {
+    //       console.log(data);
+    //       res.send(data);
+    //       getMe.returnTracks(data, index).then((data) => console.log(data)).catch((err) => console.error(err));
+    //     }).catch((err) => console.error(err));
+
+    
   });
 
   app.listen(8888, () => {

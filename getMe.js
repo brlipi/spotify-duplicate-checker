@@ -78,10 +78,4 @@ async function returnTracks(userPlaylists, index) {
     }
 }
 
-// let index = 14;
-// returnPlaylist().then((data) => {
-//     console.log(data);
-//     returnTracks(data, index).then((data) => console.log(data)).catch((err) => console.error(err));
-// }).catch((err) => console.error(err));
-
 module.exports = { returnPlaylist, returnTracks};
