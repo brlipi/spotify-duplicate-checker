@@ -1,6 +1,6 @@
 'use strict'
 
-async function returnPlaylist() {
+async function returnPlaylist(spotifyApi) {
     try {
         const me = await spotifyApi.getMe(); // The user's info is needed to retrieve the playlists.
 
