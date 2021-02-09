@@ -16,10 +16,12 @@ html
                 div.col
                     b Collaborative
             each playlist in playlists
-                a.row.clickable
+                a(id= playlist.id, class='row clickable')
                     div.col
                         p= playlist.name
                     div.col
                         p= playlist.id
                     div.col
                         p= playlist.collaborative
+        script
+            include script.js
