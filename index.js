@@ -66,7 +66,7 @@ var spotifyApi = new SpotifyWebApi({
 
           console.log(`Successfully retrieved access token. Expires in ${expires_in} seconds.`);
         //   res.send('Success! You can now close the window.');
-        res.redirect('/test');
+        res.redirect('/playlists');
 
         spotifyApi.setAccessToken(access_token);
 
@@ -85,14 +85,10 @@ var spotifyApi = new SpotifyWebApi({
   });
 
   app.get('/playlists', (req, res) => {
-    //   let index = 14;
-    //   getMe.returnPlaylist(spotifyApi).then((data) => {
-    //       console.log(data);
-    //       res.send(data);
-    //       getMe.returnTracks(data, index).then((data) => console.log(data)).catch((err) => console.error(err));
-    //     }).catch((err) => console.error(err));
-
-    
+      getMe.returnPlaylist(spotifyApi).then((data) => {
+          res.render('index', {playlists: data});
+          getMe.returnTracks(spotifyApi, data, index).then((data) => console.log(data)).catch((err) => console.error(err));
+        }).catch((err) => console.error(err));
   });
 
   app.listen(8888, () => {
