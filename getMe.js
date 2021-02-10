@@ -41,9 +41,9 @@ async function returnPlaylist(spotifyApi) {
     }
 }
 
-async function returnTracks(spotifyApi, userPlaylists, index) {
+async function returnTracks(spotifyApi, trackId) {
     try {
-        var tracks = await spotifyApi.getPlaylistTracks(userPlaylists[index].id, { limit: 100 }); // getPlaylistTracks max limit is 100.
+        var tracks = await spotifyApi.getPlaylistTracks(trackId, { limit: 100 }); // getPlaylistTracks max limit is 100.
         console.log('Total tracks: ' + tracks.body.total); // This gets the amount of tracks the playlist has in total.
         var trackArray = [];
         for (let track of tracks.body.items) {
@@ -53,14 +53,14 @@ async function returnTracks(spotifyApi, userPlaylists, index) {
         var requestOffset = 1;
         if ((totalTracks - 100) > 100) {
             while ((totalTracks - 100) > 100) {
-                tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[index].id, { limit: 100, offset: 100 * requestOffset }));
+                tracks = Object.assign(await spotifyApi.getPlaylistTracks(trackId, { limit: 100, offset: 100 * requestOffset }));
                 for (let track of tracks.body.items) {
                     trackArray.push(track);
                 }
                 requestOffset++;
                 totalTracks = totalTracks - 100;
             }
-            tracks = Object.assign(await spotifyApi.getPlaylistTracks(userPlaylists[index].id, { limit: totalTracks - 100, offset: 100 * requestOffset }));
+            tracks = Object.assign(await spotifyApi.getPlaylistTracks(trackId, { limit: totalTracks - 100, offset: 100 * requestOffset }));
             for (let track of tracks.body.items) {
                 trackArray.push(track);
             }
