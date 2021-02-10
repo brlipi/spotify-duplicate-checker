@@ -87,8 +87,14 @@ var spotifyApi = new SpotifyWebApi({
   app.get('/playlists', (req, res) => {
       getMe.returnPlaylist(spotifyApi).then((data) => {
           res.render('index', {playlists: data});
-          getMe.returnTracks(spotifyApi, data, index).then((data) => console.log(data)).catch((err) => console.error(err));
         }).catch((err) => console.error(err));
+  });
+
+  app.get('/playlists/:id', (req, res) => {
+      const id = req.params.id;
+      getMe.returnTracks(spotifyApi, id).then((data) => {
+          res.send(data);
+      })
   });
 
   app.listen(8888, () => {
