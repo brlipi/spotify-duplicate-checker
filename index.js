@@ -65,8 +65,8 @@ var spotifyApi = new SpotifyWebApi({
           console.log('refresh_token:', refresh_token);
 
           console.log(`Successfully retrieved access token. Expires in ${expires_in} seconds.`);
-        //   res.send('Success! You can now close the window.');
-        res.redirect('/playlists');
+
+          res.redirect('/playlists');
 
         spotifyApi.setAccessToken(access_token);
 
