@@ -72,7 +72,7 @@ function DuplicatesPage() {
     return (
         <>
             <h1>Duplicates found:</h1>
-            <table className='tracks'>
+            <table className={classes.tracks}>
                 <thead>
                     <tr>
                         <th>Position in playlist</th>
@@ -106,7 +106,7 @@ function DuplicatesPage() {
                     )}
                 </tbody>
             </table>
-            <button className="backButton" onClick={goBack}>Go Back</button>
+            <button className={classes.backButton} onClick={goBack}>Go Back</button>
         </>
     )
 }
