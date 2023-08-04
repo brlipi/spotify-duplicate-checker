@@ -53,12 +53,4 @@ async function fetchTracks(access_token: string, playlistId: string, limit: numb
         console.log(error);
         return null;
     }
-    // const result = await fetch(
-    //     // Can something like URLSearchParams be used so I don't have a MASSIVE url on the editor?
-    //     `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=${limit}&offset=${offset}&fields=items%28added_at%2Cadded_by%2Cis_local%2Ctrack%28id%2Cname%2Calbum.name%2Cartists%29%29`,
-    //     {
-    //         method: "GET", headers: { Authorization: `Bearer ${access_token}` }
-    //     });
-
-    // return await result.json();
 }
