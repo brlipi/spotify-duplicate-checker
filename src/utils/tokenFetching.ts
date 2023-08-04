@@ -3,7 +3,7 @@ import { client_id, redirect_uri } from "./spotifyAppInfo";
 
 const tokenURL = "https://accounts.spotify.com/api/token";
 
-export async function getAccessToken(code: string, verifier: string) {
+export async function getAccessToken(code: string, verifier: string): Promise<AccessToken | null> {
     try {
         const { data } = await axios.post(tokenURL, {
             client_id: client_id,
@@ -23,7 +23,7 @@ export async function getAccessToken(code: string, verifier: string) {
     }
 }
 
-export async function isTokenValid(access_token: string) {
+export async function isTokenValid(access_token: string): Promise<boolean> {
     try {
         await axios.get('https://api.spotify.com/v1/me', {
             headers: {
@@ -37,7 +37,7 @@ export async function isTokenValid(access_token: string) {
     }
 }
 
-export async function getNewAccessToken(refresh_token: string) {
+export async function getNewAccessToken(refresh_token: string): Promise<AccessToken | null> {
     try {
         const { data } = await axios.post(tokenURL, {
             client_id: client_id,

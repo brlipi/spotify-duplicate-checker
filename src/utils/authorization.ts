@@ -15,7 +15,7 @@ const authValues = {
 };
 
 
-export async function redirectToAuthCodeFlow() {
+export async function redirectToAuthCodeFlow(): Promise<void> {
     const { scope, authURL } = authValues;
     const verifier = generateCodeVerifier(128);
     const challenge = await generateCodeChallenge(verifier);
@@ -33,7 +33,7 @@ export async function redirectToAuthCodeFlow() {
     document.location = `${authURL}?${params.toString()}`;
 }
 
-function generateCodeVerifier(length: number) {
+function generateCodeVerifier(length: number): string {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -43,7 +43,7 @@ function generateCodeVerifier(length: number) {
     return text;
 }
 
-async function generateCodeChallenge(codeVerifier: string) {
+async function generateCodeChallenge(codeVerifier: string): Promise<string> {
     const data = new TextEncoder().encode(codeVerifier);
     const digest = await window.crypto.subtle.digest('SHA-256', data);
     return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
