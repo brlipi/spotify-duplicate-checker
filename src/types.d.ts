@@ -1,3 +1,9 @@
+interface AccessToken {
+    access_token: string;
+    refresh_token: string;
+    expires_in: number;
+}
+
 interface PlaylistItem {
     id: string;
     images: [{
@@ -14,6 +20,6 @@ interface PlaylistItem {
     collaborative: boolean;
 }
 
-interface PlaylistProp {
-    playlist: PlaylistItem;
+interface PlaylistArray {
+    playlists: PlaylistItem[];
 }
