@@ -2,20 +2,26 @@ import { useEffect, useState } from 'react';
 import { getAccessToken, isTokenValid, getNewAccessToken } from './utils/tokenFetching'
 import { fetchPlaylists } from './utils/dataFetching';
 import PlaylistsPage from './pages/Playlists/PlaylistsPage'
+import Loading from './components/Loading/Loading';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('access_token'));
-  const [playlists, setPlaylists] = useState([]);
+  const [playlists, setPlaylists] = useState<PlaylistArray>();
 
   const getToken = async () => {
     const code = localStorage.getItem('code');
     const verifier = localStorage.getItem('verifier');
-    const token = await getAccessToken(code!, verifier!);
-    localStorage.setItem('access_token', token.access_token);
-    localStorage.setItem('refresh_token', token.refresh_token);
-    const expires_in = (Math.floor(Date.now() / 1000)) + token.expires_in;
-    localStorage.setItem('expires_in', expires_in);
-    setToken(token.access_token);
+
+    if (code !== null && verifier !== null) {
+      const token = await getAccessToken(code, verifier);
+      if (token !== null) {
+        localStorage.setItem('access_token', token.access_token);
+        localStorage.setItem('refresh_token', token.refresh_token);
+        const expires_in = (Math.floor(Date.now() / 1000)) + token.expires_in;
+        localStorage.setItem('expires_in', expires_in.toString());
+        setToken(token.access_token);
+      }
+    }
   }
 
   const checkToken = async () => {
@@ -26,11 +32,13 @@ function App() {
       const isValid = await isTokenValid(access_token);
       if (!isValid) {
         const token = await getNewAccessToken(refresh_token);
-        localStorage.setItem('access_token', token.access_token);
-        localStorage.setItem('refresh_token', token.refresh_token);
-        const expires_in = (Math.floor(Date.now() / 1000)) + token.expires_in;
-        localStorage.setItem('expires_in', expires_in);
-        setToken(token.access_token);
+        if (token != null) {
+          localStorage.setItem('access_token', token.access_token);
+          localStorage.setItem('refresh_token', token.refresh_token);
+          const expires_in = (Math.floor(Date.now() / 1000)) + token.expires_in;
+          localStorage.setItem('expires_in', expires_in.toString());
+          setToken(token.access_token);
+        }
       }
     }
   }
@@ -39,7 +47,10 @@ function App() {
     const access_token = localStorage.getItem('access_token');
     if (access_token !== null) {
       const playlists = await fetchPlaylists(access_token);
-      setPlaylists(playlists.items);
+      console.log(playlists);
+      if (playlists !== null) {
+        setPlaylists(playlists);
+      }
     }
   }
 
@@ -54,7 +65,7 @@ function App() {
 
   return (
     <>
-      {playlists ? <PlaylistsPage playlists={playlists} /> : <p>Loading...</p>}
+      {playlists ? <PlaylistsPage playlists={playlists} /> : <Loading />}
     </>
   )
 }
