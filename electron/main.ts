@@ -41,10 +41,15 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
+
+  win.on('close', () => {
+    win?.webContents.executeJavaScript('localStorage.clear()');
+  });
 }
 
 app.on('window-all-closed', () => {
-  win = null
+  win = null;
+  app.quit();
 })
 
 app.whenReady().then(createWindow)
