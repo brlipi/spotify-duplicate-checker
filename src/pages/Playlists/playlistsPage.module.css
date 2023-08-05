@@ -1,0 +1,44 @@
+.container {
+    text-align: center;
+}
+
+.playlists {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-basis: 100%;
+    align-items: center;
+    margin: 0 1rem;
+    padding: 0;
+}
+
+li {
+    margin: 2rem 1rem;
+}
+
+img {
+    object-fit: cover;
+    height: 12rem;
+    width: 12rem;
+    border-radius: 0.5rem;
+}
+
+li a {
+    color: white;
+}
+
+li a .playlistContent {
+    border-radius: 1rem;
+    border: 1px solid beige;
+    overflow-wrap: break-word;
+    width: 17rem;
+    padding: 1rem 1rem;
+    width: 20rem;
+    height: 32rem;
+}
+
+li a:hover .playlistContent {
+    background-color: rgba(245, 245, 245, 0.253);
+}
