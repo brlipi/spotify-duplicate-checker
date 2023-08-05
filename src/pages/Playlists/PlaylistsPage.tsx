@@ -19,7 +19,7 @@ function PlaylistsPage({ playlists }: PlaylistArray) {
                                         <h3>{playlist.owner.display_name}</h3>
                                         <h4>Tracks: {playlist.tracks.total}</h4>
                                         <h5>Public: {playlist.public.toString()}</h5>
-                                        <h5>Collaborative {playlist.collaborative.toString()}</h5>
+                                        <h5>Collaborative: {playlist.collaborative.toString()}</h5>
                                     </div>
                                 </Link>
                             </li>

@@ -95,7 +95,7 @@ function DuplicatesPage() {
                             {duplicates.map(duplicate =>
                                 <tr key={duplicate.added_at}>
                                     <td>
-                                        {duplicate.position}
+                                        {duplicate.position + 1}
                                     </td>
                                     <td>
                                         {duplicate.track.artists.map((artist, index) => {
