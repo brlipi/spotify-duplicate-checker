@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-export async function fetchPlaylists(access_token: string) {
+export async function fetchPlaylists(access_token: string): Promise<PlaylistArray | null> {
     try {
         const { data } = await axios.get('https://api.spotify.com/v1/me/playlists?limit=50', {
             headers: {
                 'Authorization': `Bearer ${access_token}`
             }
         });
-        return data;
+        return data.items;
     } catch (error) {
         console.log(error);
         return null;
