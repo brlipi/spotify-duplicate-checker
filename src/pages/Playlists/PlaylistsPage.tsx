@@ -2,13 +2,13 @@ import { Link } from "react-router-dom"
 import classes from './playlistsPage.module.css'
 import playlistBlankImage from '../../assets/playlist_blank_image.png'
 
-function PlaylistsPage({ playlists }: PlaylistArray) {
+function PlaylistsPage(playlists: PlaylistProps) {
     return (
         <>
             <div className={classes.container}>
                 <h1>Your Playlists</h1>
                 <ul className={classes.playlists}>
-                    {playlists.map((playlist: PlaylistItem) => {
+                    {playlists.playlists.map((playlist: PlaylistItem) => {
                         const playlistPic = !playlist.images.length ? playlistBlankImage : playlist.images[0].url;
                         return (
                             <li key={playlist.id}>

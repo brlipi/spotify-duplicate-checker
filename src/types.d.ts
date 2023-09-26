@@ -20,6 +20,10 @@ interface PlaylistItem {
     collaborative: boolean;
 }
 
+interface PlaylistProps {
+    playlists: PlaylistItem[];
+}
+
 interface TrackItem {
     added_at: string;
     position: number;
