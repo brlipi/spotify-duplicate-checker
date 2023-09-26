@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export async function fetchPlaylists(access_token: string): Promise<PlaylistArray | null> {
+export async function fetchPlaylists(access_token: string): Promise<PlaylistItem[] | null> {
     try {
         const { data } = await axios.get('https://api.spotify.com/v1/me/playlists?limit=50', {
             headers: {
@@ -14,7 +14,7 @@ export async function fetchPlaylists(access_token: string): Promise<PlaylistArra
     }
 }
 
-export async function fetchFromPlaylist(access_token: string, playlistId: string) {
+export async function fetchFromPlaylist(access_token: string, playlistId: string): Promise<TrackItem[]> {
     const { total, limit } = await getPlaylistSize(access_token, playlistId);
     const offsetsNeeded = Math.ceil(total / limit);
     const tracks = [];

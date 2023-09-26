@@ -6,7 +6,7 @@ import Loading from './components/Loading/Loading';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('access_token'));
-  const [playlists, setPlaylists] = useState<PlaylistArray>();
+  const [playlists, setPlaylists] = useState<PlaylistItem[]>();
 
   const getToken = async () => {
     const code = localStorage.getItem('code');
@@ -47,7 +47,6 @@ function App() {
     const access_token = localStorage.getItem('access_token');
     if (access_token !== null) {
       const playlists = await fetchPlaylists(access_token);
-      console.log(playlists);
       if (playlists !== null) {
         setPlaylists(playlists);
       }
