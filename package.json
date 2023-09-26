@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "build-web",
-    "build-all": "build-web && build-electron",
+    "build": "yarn build-web",
+    "build-all": "yarn build-web && yarn build-electron",
     "build-electron": "electron-builder",
     "build-web": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
