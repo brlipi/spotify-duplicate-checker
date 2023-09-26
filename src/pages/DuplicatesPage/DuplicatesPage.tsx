@@ -8,8 +8,8 @@ import Loading from '../../components/Loading/Loading';
 
 function DuplicatesPage() {
     const [token, setToken] = useState(localStorage.getItem('access_token'));
-    const [tracks, setTracks] = useState([]);
-    const [duplicates, setDuplicates] = useState<unknown[] | null>(null);
+    const [tracks, setTracks] = useState<TrackItem[]>([]);
+    const [duplicates, setDuplicates] = useState<TrackItem[] | null>(null);
     const { id } = useParams();
 
     const checkToken = async () => {
@@ -35,13 +35,12 @@ function DuplicatesPage() {
         const access_token = token;
         if (access_token !== null && id !== null && id !== undefined) {
             const tracks = await fetchFromPlaylist(access_token, id);
-            console.log(tracks);
             setTracks(tracks);
         }
     }
 
-    const getDuplicates = (tracks) => {
-        const duplicates = new Set();
+    const getDuplicates = (tracks: TrackItem[]) => {
+        const duplicates = new Set<TrackItem>();
         const idMap = new Map();
 
         for (let i = 0; i < tracks.length; i++) {

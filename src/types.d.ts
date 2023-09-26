@@ -20,6 +20,17 @@ interface PlaylistItem {
     collaborative: boolean;
 }
 
-interface PlaylistArray {
-    playlists: PlaylistItem[];
+interface TrackItem {
+    added_at: string;
+    position: number;
+    track: {
+        album: {
+            name: string;
+        };
+        artists: [{
+            name: string;
+        }];
+        name: string;
+        id: string;
+    };
 }
